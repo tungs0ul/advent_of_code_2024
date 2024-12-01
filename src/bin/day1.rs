@@ -40,7 +40,7 @@ fn part2(path: &str) -> i32 {
             (nums, appears)
         },
     );
-    nums.iter()
-        .map(|num| num * appears.get(num.to_string().as_str()).unwrap_or(&0))
-        .sum()
+    nums.iter().fold(0, |acc, num| {
+        acc + num * appears.get(num.to_string().as_str()).unwrap_or(&0)
+    })
 }
