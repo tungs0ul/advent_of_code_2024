@@ -10,14 +10,14 @@ fn main() {
 fn check_safe(nums: &[i32]) -> bool {
     let tmp: HashSet<Ordering> = nums
         .windows(2)
-        .filter_map(|window| {
+        .map(|window| {
             if let [a, b] = window {
                 if a.abs_diff(*b) > 3 {
-                    return Some(std::cmp::Ordering::Equal);
+                    return std::cmp::Ordering::Equal;
                 }
-                return Some(a.cmp(b));
+                return a.cmp(b);
             }
-            None
+            panic!("not valid line");
         })
         .collect();
     if tmp.len() > 1 || tmp.contains(&Ordering::Equal) {
@@ -32,7 +32,7 @@ fn part1(path: &str) -> i32 {
     txt.filter_map(|line| {
         let cmp = line
             .split(' ')
-            .filter_map(|txt| txt.parse().map_or(None, |x: i32| Some(x)))
+            .map(|txt| txt.parse::<i32>().expect("Invalid number"))
             .collect::<Vec<i32>>();
 
         match check_safe(&cmp) {
@@ -49,7 +49,7 @@ fn part2(path: &str) -> i32 {
     txt.filter_map(|line| {
         let cmp = line
             .split(' ')
-            .filter_map(|txt| txt.parse().map_or(None, |x: i32| Some(x)))
+            .map(|txt| txt.parse::<i32>().expect("Invalid number"))
             .collect::<Vec<i32>>();
 
         if check_safe(&cmp) {

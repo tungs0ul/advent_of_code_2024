@@ -11,12 +11,12 @@ fn part1(path: &str) -> i32 {
     let txt = std::fs::read_to_string(path).unwrap();
     let txt = txt.lines();
     let (mut nums1, mut nums2): (Vec<i32>, Vec<i32>) = txt
-        .filter_map(|line| {
+        .map(|line| {
             let nums = line.split("   ").collect::<Vec<&str>>();
             if let [num1, num2] = nums[..] {
-                return Some((num1.parse::<i32>().unwrap(), num2.parse::<i32>().unwrap()));
+                return (num1.parse::<i32>().unwrap(), num2.parse::<i32>().unwrap());
             }
-            None
+            panic!("Invalid line")
         })
         .unzip();
     nums1.sort();
