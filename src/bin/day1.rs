@@ -1,16 +1,16 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, iter::zip};
 
 fn main() {
-    println!("{}", part1("inputs/test1"));
-    println!("{}", part1("inputs/day1"));
-    println!("{}", part2("inputs/test1"));
-    println!("{}", part2("inputs/day1"));
+    println!("{}", part1("inputs/day1/test1"));
+    println!("{}", part1("inputs/day1/day1"));
+    println!("{}", part2("inputs/day1/test1"));
+    println!("{}", part2("inputs/day1/day1"));
 }
 
 fn part1(path: &str) -> i32 {
     let txt = std::fs::read_to_string(path).unwrap();
     let txt = txt.lines();
-    let (mut nums1, mut nums2): (Vec<i32>, Vec<i32>) = txt
+    let (mut lefts, mut rights): (Vec<i32>, Vec<i32>) = txt
         .map(|line| {
             let nums = line.split("   ").collect::<Vec<&str>>();
             if let [num1, num2] = nums[..] {
@@ -19,9 +19,9 @@ fn part1(path: &str) -> i32 {
             panic!("Invalid line")
         })
         .unzip();
-    nums1.sort();
-    nums2.sort();
-    (0..nums1.len()).fold(0, |acc, e| acc + nums1[e].abs_diff(nums2[e])) as i32
+    lefts.sort();
+    rights.sort();
+    zip(lefts, rights).fold(0, |acc, (left, right)| acc + left.abs_diff(right) as i32)
 }
 
 fn part2(path: &str) -> i32 {
